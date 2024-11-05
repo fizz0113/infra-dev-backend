@@ -1,0 +1,26 @@
+version: '3.1'
+
+networks:
+  dev_backend_network:
+
+services:
+
+  ws-go:
+    container_name: dev.ws-go
+    image: dev.ws-go:0.1
+    build:
+      context: ./ws-go
+      args:
+        - VERSION=1.23
+    volumes:
+      - ./ws-go/workspace:/root/workspace
+      - ~/.gitconfig:/root/.gitconfig
+      - ~/.ssh:/root/.ssh
+    init: true
+    privileged: true
+    cap_add:
+      - ALL
+    working_dir: /root/workspace
+    networks:
+      - dev_backend_network
+
