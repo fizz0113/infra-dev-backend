@@ -16,6 +16,12 @@ RUN  apt install -y \
   bash zsh \
   net-tools iputils-ping tcpdump
 
+# sshd
+RUN mkdir /var/run/sshd \
+    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config \
+    && sed -i 's/#StrictModes yes/StrictModes no/' /etc/ssh/sshd_config
+
 ### goenv
 RUN git clone https://github.com/syndbg/goenv.git /root/.goenv
 

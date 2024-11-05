@@ -23,4 +23,7 @@ services:
     working_dir: /root/workspace
     networks:
       - dev_backend_network
+    ports:
+      - 40022:22
+    entrypoint: 'service ssh start -D'
 
