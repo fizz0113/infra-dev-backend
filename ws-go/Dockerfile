@@ -22,6 +22,12 @@ RUN mkdir /var/run/sshd \
     && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config \
     && sed -i 's/#StrictModes yes/StrictModes no/' /etc/ssh/sshd_config
 
+### zsh
+RUN bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+COPY ./.zshrc /root/.zshrc
+COPY ./.p10k.zsh /root/.p10k.zsh
+RUN zsh -c "TERM=xterm source /root/.zshrc"
+RUN chsh -s $(which zsh)
 ### goenv
 RUN git clone https://github.com/syndbg/goenv.git /root/.goenv
 
