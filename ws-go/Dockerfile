@@ -28,6 +28,18 @@ COPY ./.zshrc /root/.zshrc
 COPY ./.p10k.zsh /root/.p10k.zsh
 RUN zsh -c "TERM=xterm source /root/.zshrc"
 RUN chsh -s $(which zsh)
+
+### nvm 
+RUN zsh -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash"
+
+### node
+RUN zsh -c ". /root/.nvm/nvm.sh; nvm install --lts"
+
 ### goenv
 RUN git clone https://github.com/syndbg/goenv.git /root/.goenv
 
+### vim
+RUN zsh -c "curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+COPY ./.vimrc /root/.vimrc
+RUN zsh -c ". /root/.nvm/nvm.sh; vim +'PlugInstall' +qall; vim +'CocInstall -sync coc-go' +qall"
+COPY ./coc-settings.json /root/.vim/coc-settings.json
