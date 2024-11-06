@@ -54,6 +54,49 @@ services:
     networks:
       - dev_backend_network
   
+  zookeeper:
+    container_name: dev.zookeeper
+    image: dev.zookeeper:0.1
+    build:
+      context: ./zookeeper
+      args:
+        - VERSION=7.6.1
+    restart: always
+    expose:
+      - 2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - ./zookeeper/data:/var/lib/zookeeper/data
+      - ./zookeeper/config:/etc/zookeeper/conf
+    networks:
+      - dev_backend_network
+
+  kafka-old:
+    container_name: dev.kafka-old
+    image: dev.kafka-old:0.1
+    build:
+      context: ./kafka-old
+      args:
+        - VERSION=7.6.1
+    restart: always
+    depends_on:
+      - zookeeper
+    expose:
+      - 9092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-old:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ./kafka-old/data:/var/lib/kafka-old/data
+      - ./kafka-old/config:/etc/kafka-old
+    networks:
+      - dev_backend_network
+
   kafka:
     container_name: dev.kafka
     image: dev.kafka:0.1
