@@ -27,3 +27,30 @@ services:
       - 40022:22
     entrypoint: 'service ssh start -D'
 
+  rabbitmq:
+    container_name: dev.rabbitmq
+    image: dev.rabbitmq:0.1
+    build:
+      context: ./rabbitmq
+      args:
+        - VERSION=3.12.6
+    hostname: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_VHOST: vhost_admin
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_PLUGINS_DIR: '/plugins:/myplugins'
+    expose:
+      - 5552                                                  # stream protocol
+      - 5672                                                  # amqp
+      - 25672                                                 # clustering
+      - 15692                                                 # prometheus
+    ports:
+      - 15672:15672                                           # rabbitmq management
+    volumes:
+      - ./rabbitmq/data:/var/lib/rabbitmq
+      - ./rabbitmq/myplugins:/myplugins
+    networks:
+      - dev_backend_network
+  
