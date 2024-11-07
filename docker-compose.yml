@@ -181,3 +181,21 @@ services:
     networks:
       - dev_backend_network
 
+  kafka-ui:
+    container_name: dev.kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    restart: always
+    ports:
+      - "16080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: kafka-old
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-old:9092
+      KAFKA_CLUSTERS_1_NAME: kafka
+      KAFKA_CLUSTERS_1_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_2_NAME: kafka-node1
+      KAFKA_CLUSTERS_2_BOOTSTRAPSERVERS: kafka-node1:9092
+      KAFKA_CLUSTERS_3_NAME: kafka-node2
+      KAFKA_CLUSTERS_3_BOOTSTRAPSERVERS: kafka-node2:9092
+    networks:
+      - dev_backend_network
+
