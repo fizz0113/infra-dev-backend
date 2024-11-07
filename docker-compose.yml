@@ -125,3 +125,59 @@ services:
     networks:
       - dev_backend_network
 
+  kafka-node1:
+    container_name: dev.kafka-node1
+    image: dev.kafka:0.1
+    build:
+      context: ./kafka
+      args:
+        - VERSION=3.8.0
+    restart: always
+    expose:
+      - 9092
+      - 19092
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:19092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-node1:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-node1:19092,2@kafka-node2:19092
+      KAFKA_CLUSTER_ID: dev.kafka-cluster
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2 
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 2
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
+      KAFKA_LOG_DIRS: /var/log/kafka-node1
+    volumes:
+      - ./kafka/data/log:/var/log
+    networks:
+      - dev_backend_network
+
+  kafka-node2:
+    container_name: dev.kafka-node2
+    image: dev.kafka:0.1
+    build:
+      context: ./kafka
+      args:
+        - VERSION=3.8.0
+    restart: always
+    expose:
+      - 9092
+      - 19092
+    environment:
+      KAFKA_NODE_ID: 2
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:19092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-node2:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-node1:19092,2@kafka-node2:19092
+      KAFKA_CLUSTER_ID: dev.kafka-cluster
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2 
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 2
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
+      KAFKA_LOG_DIRS: /var/log/kafka-node2
+    volumes:
+      - ./kafka/data/log:/var/log
+    networks:
+      - dev_backend_network
+
