@@ -199,3 +199,19 @@ services:
     networks:
       - dev_backend_network
 
+  redis:
+    container_name: dev.redis
+    image: dev.redis:0.1
+    build:
+      context: ./redis
+      args:
+        - VERSION=7
+    restart: always
+    expose:
+      - 6379
+    volumes:
+      - ./redis/data:/data
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "mypassword"] # 開啟 AOF 持久化
+    networks:
+      - dev_backend_network
+
