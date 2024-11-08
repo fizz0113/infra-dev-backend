@@ -215,3 +215,11 @@ services:
     networks:
       - dev_backend_network
 
+  redisinsight:
+    container_name: dev.redisinsight
+    image: redis/redisinsight:latest
+    restart: always
+    networks:
+      - dev_backend_network
+    ports:
+      - "16081:5540"
