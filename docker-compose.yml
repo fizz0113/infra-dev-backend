@@ -199,6 +199,26 @@ services:
     networks:
       - dev_backend_network
 
+  mysql:
+    container_name: dev.mysql
+    image: dev.mysql:0.1
+    build:
+      context: ./mysql
+      args:
+        - VERSION=8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: defaultdb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    expose:
+      - 3306
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    networks:
+      - dev_backend_network
+
   redis:
     container_name: dev.redis
     image: dev.redis:0.1
