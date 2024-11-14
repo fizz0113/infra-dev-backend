@@ -238,6 +238,15 @@ services:
     networks:
       - dev_backend_network
 
+  adminer:
+    container_name: dev.adminer
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - dev_backend_network
+
   redis:
     container_name: dev.redis
     image: dev.redis:0.1
