@@ -1,0 +1,14 @@
+
+mysql/data
+postgres/data
+redis/data
+
+rabbitmq/data
+rabbitmq/myplugins
+
+zookeeper/data
+kafka-old/data
+
+kafka/data
+
+ws-go/workspace
