@@ -2,6 +2,7 @@
 mysql/data
 postgres/data
 redis/data
+mongodb/data
 
 rabbitmq/data
 rabbitmq/myplugins

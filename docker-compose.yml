@@ -271,3 +271,21 @@ services:
       - dev_backend_network
     ports:
       - "16081:5540"
+
+  mongodb:
+    container_name: dev.mongodb
+    image: dev.mongodb:0.1
+    build:
+      context: ./mongodb
+      args:
+        - VERSION=6.0
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    expose:
+      - 27017
+    volumes:
+      - ./mongodb/data:/data/db
+    networks:
+      - dev_backend_network
