@@ -289,3 +289,16 @@ services:
       - ./mongodb/data:/data/db
     networks:
       - dev_backend_network
+
+  mongo-express:
+    container_name: dev.mongo-express
+    image: mongo-express:latest
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    ports:
+      - "16082:8081"
+    networks:
+      - dev_backend_network
